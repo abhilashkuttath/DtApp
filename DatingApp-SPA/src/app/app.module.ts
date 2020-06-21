@@ -1,3 +1,4 @@
+import { MemberCardComponent } from './members/member-card/member-card.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -15,12 +16,16 @@ import { AlertifyService } from './_services/Alertify.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { MemberListComponent } from './member-list/member-list.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { UserService } from './_services/user.service';
+import { JwtModule } from '@auth0/angular-jwt';
 
-
+export function tokenGetter() {
+   return localStorage.getItem('token');
+}
 @NgModule({
    declarations: [
       AppComponent,
@@ -29,7 +34,8 @@ import { AuthGuard } from './_guards/auth.guard';
       RegisterComponent,
       MemberListComponent,
       ListsComponent,
-      MessagesComponent
+      MessagesComponent,
+      MemberCardComponent
    ],
    imports: [
       BrowserModule,
@@ -37,13 +43,15 @@ import { AuthGuard } from './_guards/auth.guard';
       HttpClientModule,
       FormsModule,
       BrowserAnimationsModule,
-      BsDropdownModule.forRoot()
+      BsDropdownModule.forRoot(),
+    
    ],
    providers: [
       AuthService,
       ErrorInterceptorProvider,
       AlertifyService,
       AuthGuard,
+      UserService
    ],
    bootstrap: [
       AppComponent
